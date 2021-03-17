@@ -16,7 +16,9 @@ class FeedbackRepository {
             'id': feedback.id,
             'comment': feedback.comment,
             'tutorId': feedback.tutorId,
-            'description': feedback.description,
+            // 'createdDate': feedback.createdDate,
+            // 'confirmedDate': feedback.confirmedDate,
+            // 'confirmedBy': feedback.confirmedBy,
             'status': feedback.status,
             'rate': feedback.rate.toInt(),
             'tuteeId': feedback.tuteeId,
@@ -36,13 +38,15 @@ class FeedbackRepository {
 
   //check whether or not this authorized tutee feedback all of his/her tutor
   //return unfeedbacked tutor
-   Future<Tutor> fetchUnfeedbackTutorByTuteeId(http.Client client, int tuteeId) async {
-    final response = await http.get('$FEEDBACK_CHECK_API/result?tuteeId=$tuteeId');
+  Future<Tutor> fetchUnfeedbackTutorByTuteeId(
+      http.Client client, int tuteeId) async {
+    final response =
+        await http.get('$FEEDBACK_CHECK_API/result?tuteeId=$tuteeId');
     if (response.statusCode == 200) {
       return Tutor.fromJson(json.decode(response.body));
-    } else if( response.statusCode == 500){
+    } else if (response.statusCode == 500) {
       return null;
-    }else{
+    } else {
       print('Error feedback: ' + response.body);
       throw Exception('Failed to fetch Tutor by check feedback');
     }

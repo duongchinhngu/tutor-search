@@ -20,11 +20,53 @@ class EnrollmentRepository {
             'courseId': enrollment.courseId,
           },
         ));
-    if (response.statusCode == 201 || response.statusCode == 204 || response.statusCode == 404) {
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
       return true;
     } else {
-      print(response.statusCode);
-      throw Exception('Faild to post Enrollment');
+      print("Error body: " + response.body);
+      throw Exception(
+          'Faild to post Enrollment' + response.statusCode.toString());
+    }
+  }
+
+  //get enrollment by tuteeId and courseId
+  Future<Enrollment> fetchEnrollmentByCourseIdTuteeId(int courseId, int tuteeId) async {
+    final response =
+        await http.get('$ENROLLMENT_API/course/tutee/$courseId/$tuteeId');
+    if (response.statusCode == 200) {
+      return Enrollment.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 404) {
+      return null;
+    } else {
+      throw Exception(
+          'Failed to Enrollment by courseid and tutee id: ' + response.body);
+    }
+  }
+
+    //update enrollment in db
+  Future<bool> putEnrollment(Enrollment enrollment) async {
+    final response = await http.put(
+      '$ENROLLMENT_API/${enrollment.id}',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'id': enrollment.id,
+      'tuteeId': enrollment.tuteeId,
+      'courseId': enrollment.courseId,
+      'description': enrollment.description,
+      'status': enrollment.status,
+      'createdDate': enrollment.createdDate,
+      'confirmedDate': enrollment.confirmedDate,
+      }),
+    );
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      print('Error enrollment update body: ' + response.body);
+      throw new Exception('Update enrollment failed!: ${response.statusCode}');
     }
   }
 }

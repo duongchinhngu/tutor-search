@@ -36,7 +36,7 @@ SnackBar buildDefaultSnackBar(
           height: 65,
           child: ListTile(
             leading: SizedBox(
-              width: 60,
+              width: 40,
               child: Icon(
                 snackBarIcon,
                 color: snackBarThemeColor,

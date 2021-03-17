@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/common_model.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
+
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
-import 'package:tutor_search_system/models/course.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
-
 Course course = Course.constructor(
   0,
   // name
@@ -35,20 +35,14 @@ Course course = Course.constructor(
   //thi sis hard code
   //createdBy
   globals.authorizedTutor.id,
-  // confirmBy
-  //this is fake manager id (confirmedBy); backend handles this field
-  0,
-  //createddate
-  globals.defaultDatetime,
-  //confirm date
-  //this is fake confirmedDate; backend handles this field
-  globals.defaultDatetime,
+  1,
 );
 
 //course name field controller
 TextEditingController courseNameController = TextEditingController();
 TextEditingController courseFeeController = TextEditingController();
 TextEditingController courseDescriptionController = TextEditingController();
+TextEditingController courseMaxTuteeController = TextEditingController(text: '1');
 
 //selectedClassName
 String selectedClassName = globals.DEFAULT_NO_SELECT;
@@ -83,6 +77,7 @@ void resetInputFields() {
   courseNameController.clear();
   courseFeeController.clear();
   courseDescriptionController.clear();
+  courseMaxTuteeController.clear();
 }
 
 //reset all field of create course screen; set = empty
@@ -116,14 +111,7 @@ void resetEmptyCreateCourseScreen() {
     //thi sis hard code
     //createdBy
     globals.authorizedTutor.id,
-    // confirmBy
-    //this is fake manager id (confirmedBy); backend handles this field
-    0,
-    //createddate
-    globals.defaultDatetime,
-    //confirm date
-    //this is fake confirmedDate; backend handles this field
-    globals.defaultDatetime,
+    1,
   );
   //reset all text controllers text = empty
   resetInputFields();

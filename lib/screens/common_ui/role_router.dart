@@ -4,10 +4,10 @@ import 'package:tutor_search_system/cubits/login_cubit.dart';
 import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutor_register_screens/tutor_register_successfully.dart';
 import 'package:tutor_search_system/screens/common_ui/splash_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 import 'package:tutor_search_system/screens/common_ui/login_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_successfully.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_wrapper.dart';
 import 'package:tutor_search_system/states/login_state.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -89,32 +89,5 @@ class RoleRouter extends StatelessWidget {
         },
       ),
     );
-    // // //
-    // final user = Provider.of<Person>(context);
-    // //
-    // if (user == null) {
-    //   return LoginScreen();
-    // } else if (user.email == 'duongchinhngu@gmail.com') {
-    //   return TuteeBottomNavigatorBar();
-    // } else if (user.email == 'ngudc@gmail.com') {
-    //   return TuteeHomeScreen();
-    // }
-    // return Scaffold(
-    //   body: BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
-    //     //
-    //     final loginCubit = context.watch<LoginCubit>();
-    //     loginCubit.loginByGoolge();
-    //     //
-    //     if (state is InitialLoginState) {
-    //       return Center(child: FlutterLogo());
-    //     } else if (state is SignedInFailedState) {
-    //       return Center(
-    //         child: Text(state.errorMessage),
-    //       );
-    //     } else if (state is SignInSucceededState) {
-    //       return TuteeBottomNavigatorBar();
-    //     }
-    //   }),
-    // );
   }
 }

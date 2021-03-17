@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
-import '../register_elements.dart';
-import '../register_processing_screen.dart';
+import 'register_elements.dart';
+import 'tutor_register_processing_screen.dart';
 import 'tutor_register_variables.dart';
+import 'package:http/http.dart' as http;
 
 //
 TextEditingController nameController = TextEditingController();
@@ -571,15 +573,31 @@ InkWell buildCreateButton(BuildContext context) {
         formkey.currentState.save();
         //
         if (socialIdImage != null) {
-          //navigate to processing screen
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            return Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => TutorRegisterProccessingScreen(
-                  tutor: registerTutor,
+          //chech whether or not this email exist in Account table in DB
+          await AccountRepository()
+              .isEmailExist(http.Client(), emailController.text)
+              .then((isExist) {
+            if (isExist == 'false') {
+              //navigate to processing screen
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                return Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => TutorRegisterProccessingScreen(
+                      tutor: registerTutor,
+                    ),
+                  ),
+                );
+              });
+            } else {
+              //if this email is used to register already
+              showDialog(
+                context: context,
+                builder: (context) => buildAlertDialog(
+                  context,
+                  'This email is already registered!',
                 ),
-              ),
-            );
+              );
+            }
           });
         } else {
           return buildAlertDialog(context, 'Social ID Image is required!');

@@ -1,19 +1,18 @@
 import 'dart:ui';
-
+import 'package:braintree_payment/braintree_payment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/models/braintree.dart';
+import 'package:tutor_search_system/repositories/braintree_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
-
-import 'register_screens/tutor_register_screens/tutor_register_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   final IconData snackBarIcon;
@@ -103,12 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //sign up link
                     InkWell(
                       onTap: () {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => TuteeRegisterScreen(),
-                        //     ),
-                        //   );
+                        //show role selector dialog
                         showDialog(
                           context: context,
                           builder: (context) => buildDefaultDialog(
@@ -167,6 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             );
+          } else if (snapshot.hasError) {
+            print('Error');
           } else {
             return buildLoadingIndicator();
           }
@@ -191,6 +187,8 @@ class LoginButton extends StatelessWidget {
         //show email login dialog
         await loginRepository.handleGoogleSignIn(context);
         //
+        // 
+        
       },
       //
       child: Container(

@@ -67,6 +67,36 @@ AlertDialog buildDefaultDialog(
   );
 }
 
+//confirm dialog default
+Future showDefaultConfirmDialog(BuildContext context, String title, String subtitle, Function continueFunction) {
+  return showDialog(
+    context: context,
+    builder: (context) => buildDefaultDialog(
+      context,
+      title,
+      subtitle,
+      [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: continueFunction,
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+
 //sign out function common
 Future showLogoutConfirmDialog(BuildContext context) {
   return showDialog(

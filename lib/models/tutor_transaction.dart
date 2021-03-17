@@ -1,7 +1,7 @@
 import 'package:tutor_search_system/models/transaction.dart';
 
 class TutorTransaction extends Transaction {
-  final int archievedPoints;
+  int archievedPoints;
   final int usedPoints;
   final int feeId;
   final int tutorId;

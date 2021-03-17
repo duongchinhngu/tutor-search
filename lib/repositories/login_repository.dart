@@ -23,13 +23,16 @@ class LoginRepository {
     //
     await _googleSignIn.signIn().whenComplete(() async {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        return Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => RoleRouter(
-              userEmail: _googleSignIn.currentUser.email,
+        if (_googleSignIn.currentUser != null) {
+          //if email is selected; navigate to roleRouter
+          return Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => RoleRouter(
+                userEmail: _googleSignIn.currentUser.email,
+              ),
             ),
-          ),
-        );
+          );
+        } 
       });
     });
 

@@ -5,8 +5,8 @@ import 'package:tutor_search_system/commons/urls.dart';
 
 class SubjectRepository {
   //fetch all subjects
-  Future<List<Subject>> fetchAllSubjects(http.Client client) async {
-    final response = await http.get('$ALL_SUBJECT_API');
+  Future<List<Subject>> fetchSubjectsByStatus(http.Client client, String status) async {
+    final response = await http.get('$SUBJECT_BY_STATUS_API/$status');
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse

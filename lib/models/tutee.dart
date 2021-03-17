@@ -36,7 +36,7 @@ class Tutee extends Person {
       id: json['id'],
       fullname: json['fullname'],
       gender: json['gender'],
-      birthday: json['birthday'],
+      birthday: json['birthday'].toString().substring(0, 10),
       email: json['email'],
       phone: json['phone'],
       address: json['address'],
@@ -44,5 +44,17 @@ class Tutee extends Person {
       status: json['status'],
       roleId: json['roleId'],
     );
+  }
+
+  void showAttributes() {
+    print('this is tutor fullname: ' + fullname);
+    print('this is tutor gender: ' + gender);
+    print('this is tutor birthday: ' + birthday);
+    print('this is tutor email: ' + email);
+    print('this is tutor phone: ' + phone);
+    print('this is tutor address: ' + address);
+    print('this is tutor roleId: ' + roleId.toString());
+    print('this is tutor avatarImageLink: ' + avatarImageLink);
+
   }
 }

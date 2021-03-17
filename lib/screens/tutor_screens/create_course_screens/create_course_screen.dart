@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:tutor_search_system/commons/common_functions.dart' as converter;
+import 'package:tutor_search_system/commons/functions/common_functions.dart' as converter;
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
@@ -16,9 +16,9 @@ import 'package:tutor_search_system/repositories/class_has_subject_repository.da
 import 'package:tutor_search_system/repositories/class_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
-import 'package:tutor_search_system/screens/common_ui/payment_screens/payment_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/week_days_ui.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
 import 'package:tutor_search_system/states/class_state.dart';
 import 'create_course_variables.dart';
 
@@ -334,7 +334,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                       //begin date
                       ListTile(
-                        minLeadingWidth: 20,
                         leading: Icon(
                           Icons.calendar_today,
                           color: mainColor,
@@ -379,7 +378,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       ),
                       // end date
                       ListTile(
-                        minLeadingWidth: 20,
                         leading: Icon(
                           Icons.calendar_today,
                           color: mainColor,
@@ -583,7 +581,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                 ),
                 child: ListTile(
-                  minLeadingWidth: 20,
                   title: Container(
                     padding: EdgeInsets.only(top: 15),
                     child: Row(
@@ -662,6 +659,62 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                     validator: MultiValidator([
                       RequiredValidator(errorText: "Study Fee is required"),
+                    ]),
+                  ),
+                ),
+              ),
+              //max tutee in course
+              Container(
+                height: 120,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 20),
+                margin: EdgeInsets.only(right: 20, top: 20),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  boxShadow: [boxShadowStyle],
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                ),
+                child: ListTile(
+                  leading: Container(
+                    width: 43,
+                    height: 43,
+                    child: Icon(
+                      Icons.person,
+                      color: mainColor,
+                    ),
+                  ),
+                  title: TextFormField(
+                    controller: courseMaxTuteeController,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.start,
+                    onChanged: (context) {
+                      setState(() {
+                        course.maxTutee =
+                            int.parse(courseMaxTuteeController.text);
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Maximum tutee',
+                      labelStyle: textStyle,
+                      fillColor: Color(0xffF9F2F2),
+                      filled: true,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Colors.transparent, width: 0.0),
+                      ),
+                      hintText: 'Number of tutee in your course',
+                      hintStyle: TextStyle(
+                        color: Colors.grey[400],
+                        fontSize: textFontSize,
+                      ),
+                    ),
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: " is required"),
                     ]),
                   ),
                 ),
@@ -798,7 +851,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PaymentScreen(course: course),
+                    builder: (context) => TutorPaymentScreen(course: course),
                   ),
                 );
               }

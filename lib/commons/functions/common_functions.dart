@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'global_variables.dart' as globals;
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:tutor_search_system/commons/colors.dart';
+import '../global_variables.dart' as globals;
 
 //convert timeofday type to string value
 String convertTimeOfDayToString(TimeOfDay time) {
@@ -27,14 +26,6 @@ String convertDayTimeToString(DateTime date) {
   return globals.dateFormatter.format(date);
 }
 
-//post file on Firbase storage and return URL
-Future<String> uploadFileOnFirebaseStorage(File file) async {
-  firebase_storage.Reference ref =
-      firebase_storage.FirebaseStorage.instance.ref().child(file.path);
-  firebase_storage.TaskSnapshot uploadTask = await ref.putFile(file);
-  return await uploadTask.ref.getDownloadURL();
-}
-
 //select image from storage
 Future<File> getImageFromGallery() async {
   // ignore: deprecated_member_use
@@ -45,4 +36,23 @@ Future<File> getImageFromGallery() async {
 Future<File> getImageFromCamera() async {
   // ignore: deprecated_member_use
   return await ImagePicker.pickImage(source: ImageSource.camera);
+}
+
+//get status and return proper color for the status
+Color mapStatusToColor(String status) {
+  if (status == globals.CourseConstants.DENIED_STATUS) {
+    return deniedColor;
+  } else if (status == globals.CourseConstants.ACTIVE_STATUS ||
+      status == globals.CourseConstants.ACCEPTED_STATUS) {
+    return activeColor;
+  } else if (status == globals.CourseConstants.PENDING_STATUS) {
+    return pendingColor;
+  }
+  //this is error color for test
+  return Colors.tealAccent;
+}
+
+//get year old from birthday
+int getYearOldFromBithdayString(String birthday) {
+  return DateTime.now().year - int.parse(birthday.substring(0, 4));
 }

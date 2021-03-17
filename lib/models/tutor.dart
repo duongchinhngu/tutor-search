@@ -52,7 +52,7 @@ class Tutor extends Person {
       id: json['id'],
       fullname: json['fullname'],
       gender: json['gender'],
-      birthday: json['birthday'].toString().substring(0,10),
+      birthday: json['birthday'].toString().substring(0, 10),
       email: json['email'],
       phone: json['phone'],
       address: json['address'],
@@ -80,5 +80,6 @@ class Tutor extends Person {
     print('this is tutor educationLevel: ' + educationLevel);
     print('this is tutor school: ' + school);
     print('this is tutor socialIdUrl: ' + socialIdUrl);
+    print('this is tutor point: $points');
   }
 }

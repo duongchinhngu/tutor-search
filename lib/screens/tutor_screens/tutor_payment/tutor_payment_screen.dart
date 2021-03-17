@@ -7,7 +7,8 @@ import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
-import 'payment_methods.dart' as payment_methods;
+import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_method.dart'
+    as payment_methods;
 import 'package:tutor_search_system/repositories/fee_repository.dart';
 import 'package:tutor_search_system/states/fee_state.dart';
 
@@ -15,18 +16,35 @@ import 'package:tutor_search_system/states/fee_state.dart';
 TextEditingController usePointController = TextEditingController();
 
 //
-class PaymentScreen extends StatefulWidget {
+class TutorPaymentScreen extends StatefulWidget {
   final Course course;
 
-  const PaymentScreen({Key key, @required this.course}) : super(key: key);
+  const TutorPaymentScreen({Key key, @required this.course}) : super(key: key);
   @override
-  _PaymentScreenState createState() => _PaymentScreenState();
+  _TutorPaymentScreenState createState() => _TutorPaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _TutorPaymentScreenState extends State<TutorPaymentScreen> {
   //
-  bool validateTotalAmount(double totalAmount) {
+  bool validatePoint(double totalAmount, int usedPoint) {
+    //total amount cannot be negative
     if (totalAmount < 0) {
+      //show dialog alert
+      showDialog(
+        context: context,
+        builder: (context) =>
+            buildAlertDialog(context, 'Total amount must be greater than 0!'),
+      );
+      return false;
+    } else
+    //cannot use point over the number tutor has
+    if (usedPoint > globals.authorizedTutor.points) {
+      //show dialog alert
+      showDialog(
+        context: context,
+        builder: (context) => buildAlertDialog(context,
+            'Your available point(s) is ${globals.authorizedTutor.points}'),
+      );
       return false;
     }
     return true;
@@ -42,9 +60,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         int feeId = 0;
         //set proper feeId
         //tutor payment has feeId = 2 (create course fee); tutee has feeId = 1 (joining course fee)
-        if (globals.authorizedTutee != null) {
-          feeId = 1;
-        } else if (globals.authorizedTutor != null) {
+        if (globals.authorizedTutor != null) {
           feeId = 2;
         }
         //
@@ -56,9 +72,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         //
         //set total amount
         if (state is FeeLoadedState) {
-          if (globals.authorizedTutee != null) {
-            totalAmount += state.fee.price + widget.course.studyFee;
-          } else if (globals.authorizedTutor != null) {
+          //set total amount for tutor
+          if (globals.authorizedTutor != null) {
             totalAmount = totalAmount +
                 state.fee.price -
                 int.parse(usePointController.text != ''
@@ -88,9 +103,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //payment method title
-                        _buildPaymentMethodTitle(),
+                        buildPaymentMethodTitle(),
                         //payment method
-                        _buildPaymentMethod(),
+                        buildPaymentMethod(),
                         //transaction details title
                         _buildTransactionDetailTitle(),
                         //
@@ -106,6 +121,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               boxShadow: [boxShadowStyle]),
                           child: Column(
                             children: [
+                              //fee
                               Container(
                                 width: 341,
                                 height: 60,
@@ -122,18 +138,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     style: textStyle,
                                   ),
                                 ),
-                              ),
-                              //Transfer to tutor
-                              //tutee only
-                              Visibility(
-                                visible: globals.authorizedTutee != null,
-                                child: _buildTuteeTransferToTutor(),
-                              ),
-                              //amount
-                              //tutee only
-                              Visibility(
-                                visible: globals.authorizedTutee != null,
-                                child: _buildTuteeAmountToPay(),
                               ),
                               PaymentItemDivider(),
                               //fee
@@ -258,73 +262,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Container _buildTuteeAmountToPay() {
-    return Container(
-      width: 341,
-      height: 60,
-      alignment: Alignment.center,
-      child: ListTile(
-        leading: Text(
-          'Amount',
-          style: TextStyle(color: Colors.grey[400]),
-        ),
-        trailing: Text(
-          '\$' + widget.course.studyFee.toString(),
-          style: textStyle,
-        ),
-      ),
-    );
-  }
-
-  Container _buildTuteeTransferToTutor() {
-    return Container(
-      width: 341,
-      height: 60,
-      alignment: Alignment.center,
-      child: ListTile(
-        leading: Text(
-          'Transfer to tutor',
-          style: TextStyle(color: Colors.grey[400]),
-        ),
-        trailing: Text(
-          widget.course.createdBy.toString(),
-          style: textStyle,
-        ),
-      ),
-    );
-  }
-
+  //
   FloatingActionButton _buildPayNowFAB(
       FeeState state, BuildContext context, double totalAmount) {
     return FloatingActionButton.extended(
       onPressed: () async {
         //set enable onPress function for FAB
         if (state is FeeLoadedState) {
-          if (globals.authorizedTutee != null) {
-            //post TuteeTransaction
-            payment_methods.completeTuteeTransaction(
-                context, widget.course, totalAmount);
-          } else if (globals.authorizedTutor != null) {
-            //validate total amoount
-            if (validateTotalAmount(totalAmount)) {
-              //post Tutor Transaction
-              payment_methods.completeTutorTransaction(
-                  context,
-                  widget.course,
-                  totalAmount,
-                  int.parse(usePointController.toString()),
-                  state.fee);
-            } else {
-              //show dialog alert
-              showDialog(
-                context: context,
-                builder: (context) => buildAlertDialog(
-                    context, 'Total amount must be greater than 0!'),
-              );
-            }
+          int usedPoint = int.parse(
+              usePointController.text != '' ? usePointController.text : '0');
+          //validate total amoount
+          if (validatePoint(totalAmount, usedPoint)) {
+            //post Tutor Transaction
+            payment_methods.checkOutTutorPayment(
+                context, widget.course, totalAmount, usedPoint, state.fee);
           }
         }
-        //disble FAB when fee is not loaded yet
       },
       isExtended: true,
       backgroundColor: Colors.transparent,
@@ -352,7 +305,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 color: Color(0xff10D624),
               ),
               child: Text(
-                'Pay Now',
+                'Check out',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: titleFontSize,
@@ -392,46 +345,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       child: Text(
         'Transaction Details',
-        style: TextStyle(
-          fontSize: titleFontSize,
-          color: textWhiteColor,
-        ),
-      ),
-    );
-  }
-
-  Container _buildPaymentMethod() {
-    return Container(
-      width: 341,
-      height: 60,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white.withOpacity(0.35)),
-      child: ListTile(
-        leading: Image.asset(
-          'assets/images/MoMo_Logo.png',
-          height: 40,
-        ),
-        title: Text(
-          'MoMo wallet',
-          style: TextStyle(
-            color: textWhiteColor,
-            fontSize: titleFontSize,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container _buildPaymentMethodTitle() {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 10,
-        bottom: 8,
-      ),
-      child: Text(
-        'Payment Method',
         style: TextStyle(
           fontSize: titleFontSize,
           color: textWhiteColor,
@@ -482,3 +395,45 @@ class PaymentItemDivider extends StatelessWidget {
     );
   }
 }
+
+
+  Container buildPaymentMethod() {
+    return Container(
+      width: 341,
+      height: 60,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white.withOpacity(0.35)),
+      child: ListTile(
+        leading: Image.asset(
+          'assets/images/logo+money+payment+paypal+shopping+icon-1320193177858485660.png',
+          height: 50,
+        ),
+        title: Text(
+          'PayPal, credit or debit card',
+          style: TextStyle(
+            color: textWhiteColor,
+            fontSize: titleFontSize,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container buildPaymentMethodTitle() {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 10,
+        bottom: 8,
+      ),
+      child: Text(
+        'Payment Method',
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: textWhiteColor,
+        ),
+      ),
+    );
+  }
+

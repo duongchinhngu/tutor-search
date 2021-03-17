@@ -4,7 +4,7 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_class_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_fields/filter_string_fields_screen.dart';
 import 'filter_models/course_filter_variables.dart';
-import 'package:tutor_search_system/commons/common_functions.dart' as converter;
+import 'package:tutor_search_system/commons/functions/common_functions.dart' as converter;
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';

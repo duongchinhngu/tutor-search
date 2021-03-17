@@ -5,8 +5,6 @@ import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/account.dart';
 
 class AccountRepository {
-  //load account by email; and then use RoleId to load Tutor or Tutee account info
-
   //load account by email
   Future<Account> fetchAccountByEmail(http.Client client, String email) async {
     final response = await http.get('$ACCOUNT_API/email/$email');
@@ -43,6 +41,19 @@ class AccountRepository {
       print('error body account repo: ' + response.body);
       print(response.statusCode);
       throw Exception('Faild to post Account');
+    }
+  }
+
+  //load account by email
+  Future<String> isEmailExist(http.Client client, String email) async {
+    print('this is email: ' + email);
+    final response = await http.get('$ACCOUNT_API/check-email-exist/$email');
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print('Error body check email account: ' + response.body);
+      throw Exception('Failed to check email exist in Account table: ' +
+          response.statusCode.toString());
     }
   }
 }

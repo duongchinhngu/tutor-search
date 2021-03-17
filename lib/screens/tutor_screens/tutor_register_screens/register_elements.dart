@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/common_functions.dart';
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
-import './tutor_register_screens/tutor_register_screen.dart' as tutor_screen;
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_variables.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
+// import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
 
-import 'tutor_register_screens/tutor_register_variables.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_variables.dart';
+import 'tutor_register_screen.dart' as tutor_screen;
+import 'tutor_register_variables.dart';
 
 //text input field
 Container buildInputField(
@@ -55,6 +56,178 @@ Container buildInputField(
       validator: validators,
     ),
   );
+}
+
+Container buildInputPhoneUpdateField(
+    String title,
+    String currentphone,
+    TextInputType textInputType,
+    MultiValidator validators,
+    TextEditingController controller) {
+  return Container(
+    width: 260,
+    height: 60,
+    child: TextFormField(
+      controller: controller,
+      textAlign: TextAlign.start,
+      keyboardType: textInputType,
+      onChanged: (context) {},
+      decoration: InputDecoration(
+        labelText: title,
+        labelStyle: TextStyle(
+          color: mainColor,
+          fontSize: titleFontSize,
+        ),
+        isDense: true,
+        fillColor: backgroundColor,
+        filled: true,
+        focusedBorder: InputBorder.none,
+        counterText: '',
+        border: UnderlineInputBorder(
+            borderSide: BorderSide(
+          color: mainColor,
+          width: 1,
+        )),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+          color: mainColor,
+          width: 0,
+        )),
+      ),
+      validator: validators,
+    ),
+  );
+}
+
+class OnPressableInputDateField extends StatefulWidget {
+  String title;
+  final TextEditingController controller;
+  final List<dynamic> bottomUpList;
+  final double widthLength;
+
+  OnPressableInputDateField({
+    Key key,
+    this.title,
+    this.controller,
+    this.bottomUpList,
+    this.widthLength,
+  }) : super(key: key);
+  @override
+  _OnPressableInputDateFieldState createState() =>
+      _OnPressableInputDateFieldState();
+}
+
+class _OnPressableInputDateFieldState extends State<OnPressableInputDateField> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        //if not datetime or time selector, show list in bottom up
+        if (widget.bottomUpList != null) {
+          showBottomUpSingleSelector(context, widget.bottomUpList);
+        } else {
+          //set selected birthay
+          // selectedBirthday = await
+          DateTime selectedDate = await dateSelector(context, selectedBirthday);
+          //set value to register tutee obj
+          setState(() {
+            registerTutee.birthday = convertDayTimeToString(selectedDate);
+            // this.widget.title = registerTutee.birthday;
+            this.widget.controller.text = registerTutee.birthday;
+          });
+          // registerTutee.birthday = convertDayTimeToString(selectedDate);
+
+          //
+          // birthdayController.text = registerTutee.birthday;
+        }
+        //
+      },
+      child: Container(
+        width: widget.widthLength != null ? widget.widthLength : 260,
+        height: 60,
+        child: TextFormField(
+          controller: widget.controller,
+          textAlign: TextAlign.start,
+          enabled: false,
+          decoration: InputDecoration(
+            labelText: this.widget.title,
+            labelStyle: TextStyle(
+              color: mainColor,
+              fontSize: titleFontSize,
+            ),
+            isDense: true,
+            fillColor: backgroundColor,
+            filled: true,
+            focusedBorder: InputBorder.none,
+            counterText: '',
+            border: UnderlineInputBorder(
+                borderSide: BorderSide(
+              color: mainColor,
+              width: 1,
+            )),
+            errorBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+              color: Colors.red,
+              width: 0,
+            )),
+            errorStyle: TextStyle(
+              color: Colors.red,
+              // fontSize: 8,
+            ),
+            disabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+              color: mainColor,
+              width: 0,
+            )),
+          ),
+          validator: RequiredValidator(errorText: 'is required!'),
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> showBottomUpSingleSelector(
+      BuildContext context, List<dynamic> list) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return ListView.separated(
+            separatorBuilder: (BuildContext context, int index) => Divider(),
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Visibility(
+                  visible: list[index] == registerTutee.gender,
+                  child: Icon(
+                    Icons.check,
+                    color: mainColor,
+                    size: 15,
+                  ),
+                ),
+                title: Text(
+                  list[index],
+                  style: TextStyle(
+                    color: list[index] == registerTutee.gender
+                        ? mainColor
+                        : textGreyColor,
+                    fontSize: titleFontSize,
+                  ),
+                ),
+                onTap: () {
+                  //pop
+                  Navigator.pop(context);
+                  //set value
+                  if (widget.title == 'Gender') {
+                    registerTutee.gender = list[index];
+                    //
+                    genderController.text = registerTutee.gender;
+                  }
+                },
+              );
+            },
+          );
+        });
+  }
 }
 
 //ontapable( can press) to select a bottom up value

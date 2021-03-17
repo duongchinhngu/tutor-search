@@ -1,5 +1,5 @@
 import 'package:tutor_search_system/models/tutee.dart';
-import 'package:tutor_search_system/screens/common_ui/register_screens/tutee_register_screens/tutee_register_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_register_screens/tutee_register_screen.dart';
 
 //selected birthday
 DateTime selectedBirthday;

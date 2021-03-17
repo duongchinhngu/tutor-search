@@ -9,9 +9,9 @@ class SubjectCubit extends Cubit<SubjectState> {
   SubjectCubit(this._repository) : super(SubjectLoadingState());
 
   //get all subjects
-  Future getAllSubjects() async {
+  Future getSubjectsByStatus(String status) async {
     try {
-      List<Subject> subjects = await _repository.fetchAllSubjects(http.Client());
+      List<Subject> subjects = await _repository.fetchSubjectsByStatus(http.Client(), status);
       emit(SubjectListLoadedState(subjects));
     } catch (e) {
       emit(SubjectLoadFailedState('$e'));

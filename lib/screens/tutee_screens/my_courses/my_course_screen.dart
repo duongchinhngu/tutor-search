@@ -1,3 +1,4 @@
+import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -166,11 +167,7 @@ Container CourseCard(Course course) {
           alignment: Alignment.centerRight,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: course.status == 'Accepted'
-                  ? mainColor
-                  : (course.status == 'Denied')
-                      ? Colors.red
-                      : Colors.orange,
+              color: mapStatusToColor(course.status),
               boxShadow: [
                 boxShadowStyle,
               ]),

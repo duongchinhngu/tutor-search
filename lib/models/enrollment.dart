@@ -3,13 +3,22 @@ class Enrollment {
   final int tuteeId;
   final int courseId;
   final String description;
-  final String status;
+  String status;
+  String createdDate;
+  String confirmedDate;
 
   Enrollment.modelConstructor(
       this.id, this.tuteeId, this.courseId, this.description, this.status);
 
-  Enrollment(
-      {this.id, this.tuteeId, this.courseId, this.description, this.status});
+  Enrollment({
+    this.id,
+    this.tuteeId,
+    this.courseId,
+    this.description,
+    this.status,
+    this.createdDate,
+    this.confirmedDate,
+  });
 
   factory Enrollment.fromJson(Map<String, dynamic> json) {
     return Enrollment(
@@ -18,6 +27,8 @@ class Enrollment {
       courseId: json['courseId'],
       description: json['description'],
       status: json['status'],
+      createdDate: json['createdDate'],
+      confirmedDate: json['confirmedDate'],
     );
   }
 }

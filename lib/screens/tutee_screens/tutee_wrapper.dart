@@ -3,6 +3,7 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/screens/tutee_screens/home_screens/tutee_home_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/my_courses/my_course_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/search_course_welcome_screen.dart';
+import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_profile_screen.dart';
 
 class TuteeBottomNavigatorBar extends StatefulWidget {
   final selectedIndex;
@@ -27,7 +28,7 @@ class _TuteeBottomNavigatorBarState extends State<TuteeBottomNavigatorBar> {
       MyCourseScreen(),
       TuteeSearchCourseWelcomeScreen(),
       TuteeHomeScreen(),
-      TuteeHomeScreen(),
+      TuteeProfileManagement(),
     ];
     if (widget.selectedIndex != null) {
       _currentIndex = widget.selectedIndex;

@@ -1,16 +1,24 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
+import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
+import 'package:tutor_search_system/models/tutor.dart';
+import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
+import 'package:tutor_search_system/states/enrollment_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
 
 class TutorDetails extends StatelessWidget {
   final int tutorId;
-  const TutorDetails({Key key, @required this.tutorId}) : super(key: key);
+  final int courseId;
+  const TutorDetails({Key key, @required this.tutorId, @required this.courseId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,139 +181,11 @@ class TutorDetails extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ListView(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 230, 0, 0),
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 5, 0),
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        state.tutor.description,
-                                        style: TextStyle(
-                                          color: textGreyColor,
-                                          fontSize: 11,
-                                        ),
-                                      )),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Container(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 5, 10, 10),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 30),
-                                                child: Image.asset(
-                                                    'assets/images/gender.png'),
-                                              ),
-                                              Text(state.tutor.gender)
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 5, 10, 10),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 30),
-                                                child: Image.asset(
-                                                    'assets/images/birthday-cake.png'),
-                                              ),
-                                              Text(state.tutor.birthday)
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 5, 10, 10),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 30),
-                                                child: Image.asset(
-                                                    'assets/images/email.png'),
-                                              ),
-                                              Text(state.tutor.email)
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 5, 10, 10),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 30),
-                                                child: Image.asset(
-                                                    'assets/images/phone.png'),
-                                              ),
-                                              Text(state.tutor.phone)
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 5, 10, 10),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 30),
-                                                child: Image.asset(
-                                                    'assets/images/pinlocation.png'),
-                                              ),
-                                              Container(
-                                                width: 250,
-                                                child: Text(
-                                                  state.tutor.address,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5, 5, 10, 10),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 30),
-                                                child: Image.asset(
-                                                    'assets/images/major.png'),
-                                              ),
-                                              Text(state.tutor.educationLevel)
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                    //tutor information
+                    TutorInformation(
+                      tutor: state.tutor,
+                      courseId: courseId,
+                    ),
                   ],
                 ),
               ),
@@ -317,6 +197,233 @@ class TutorDetails extends StatelessWidget {
           );
         }
       }),
+    );
+  }
+}
+
+class TutorInformation extends StatelessWidget {
+  final Tutor tutor;
+  final int courseId;
+  const TutorInformation({
+    Key key,
+    @required this.tutor,
+    @required this.courseId,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => EnrollmentCubit(EnrollmentRepository()),
+      child: BlocBuilder<EnrollmentCubit, EnrollmentState>(
+        builder: (context, state) {
+          //
+          final enrollmentCubit = context.watch<EnrollmentCubit>();
+          enrollmentCubit.getEnrollmentByCourseIdTuteeId(
+              courseId, authorizedTutee.id);
+          //
+          bool isCensoredInfo = true;
+          if( state is EnrollmentLoadedState)
+          {
+            if( state.enrollment != null && state.enrollment.status == EnrollmentConstants.ACCEPTED_STATUS){
+              isCensoredInfo = false;
+            }
+          }
+          //
+          return ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 230, 0, 0),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
+                        child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              tutor.description,
+                              style: TextStyle(
+                                color: textGreyColor,
+                                fontSize: 11,
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Image.asset(
+                                          'assets/images/gender.png'),
+                                    ),
+                                    Text(tutor.gender)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Image.asset(
+                                          'assets/images/birthday-cake.png'),
+                                    ),
+                                    Text(tutor.birthday)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Image.asset(
+                                          'assets/images/email.png'),
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Text(
+                                          tutor.email,
+                                        ),
+                                        //
+                                        Visibility(
+                                          visible: isCensoredInfo,
+                                          child: Positioned.fill(
+                                            child: ClipRect(
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                  sigmaY: 5,
+                                                  sigmaX: 5,
+                                                ),
+                                                child: Container(
+                                                  color: Colors.black
+                                                      .withOpacity(0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Image.asset(
+                                          'assets/images/phone.png'),
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Text(tutor.phone),
+                                        //
+                                        Visibility(
+                                          visible: isCensoredInfo,
+                                          child: Positioned.fill(
+                                            child: ClipRect(
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                  sigmaY: 5,
+                                                  sigmaX: 5,
+                                                ),
+                                                child: Container(
+                                                  color: Colors.black
+                                                      .withOpacity(0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Image.asset(
+                                          'assets/images/pinlocation.png'),
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: 250,
+                                          child: Text(
+                                            tutor.address,
+                                          ),
+                                        ),
+                                        //
+                                        Visibility(
+                                          visible: isCensoredInfo,
+                                          child: Positioned.fill(
+                                            child: ClipRect(
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                  sigmaY: 5,
+                                                  sigmaX: 5,
+                                                ),
+                                                child: Container(
+                                                  color: Colors.black
+                                                      .withOpacity(0),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(5, 5, 10, 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Image.asset(
+                                          'assets/images/major.png'),
+                                    ),
+                                    Text(tutor.educationLevel)
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

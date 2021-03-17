@@ -5,6 +5,9 @@ const TUTOR_API = "$SERVER_NAME/tutors";
 
 //tutee api urls
 const TUTEE_API = "$SERVER_NAME/tutees";
+const UPDATE_TUTEE_API = "$SERVER_NAME/tutees/id?";
+
+const TUTEE_IN_A_COURSE = '$TUTEE_API/tutee-in-course';
 
 //class api urls
 const CLASS_API = "$SERVER_NAME/classes";
@@ -25,6 +28,7 @@ const TUTEE_HOME_COURSES = '$COURSE_API/tutee-home';
 //subject api urls
 const SUBJECT_API = "$SERVER_NAME/subjects";
 const ALL_SUBJECT_API = "$SUBJECT_API/all";
+const SUBJECT_BY_STATUS_API = "$SUBJECT_API/status";
 
 //enrollment api urls
 const ENROLLMENT_API = "$SERVER_NAME/enrollments";
@@ -49,3 +53,9 @@ const IMAGE_API = '$SERVER_NAME/images';
 //feedback api url
 const FEEDBACK_API = '$SERVER_NAME/feedbacks';
 const FEEDBACK_CHECK_API = '$FEEDBACK_API/check-exist';
+
+//membership api ulrs
+const MEMBERSHIP_API = '$SERVER_NAME/memberships';
+
+//braintree payment api
+const BRAINTREE_API = '$SERVER_NAME/braintree-payment';

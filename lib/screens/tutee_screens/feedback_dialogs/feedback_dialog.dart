@@ -170,13 +170,25 @@ class _FeedbackDialogBodyState extends State<FeedbackDialogBody> {
                     //init feedback dto
                     //tutorId here is 1; temporary
                     final feedback = Feedbacks.constructor(
-                        0,
-                        commentController.text,
-                        widget.tutor.id,
-                        '',
-                        'Pending',
-                        authorizedTutee.id,
-                        selectedRating);
+                      //id
+                      0,
+                      //comment
+                      commentController.text,
+                      //to tutorId
+                      widget.tutor.id,
+                      // //create date
+                      // defaultDatetime,
+                      //status
+                      'Pending',
+                      //tutee id
+                      authorizedTutee.id,
+                      //rate
+                      selectedRating,
+                      //this is temporary value; back end will process this
+                      // defaultDatetime,
+                      //this is temporary value; back end will process this
+                      // 0,
+                    );
                     //post feedback
                     await feedbackRepository
                         .postFeedback(feedback)
