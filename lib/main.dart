@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.pontanoSansTextTheme(),
       ),
-      home: LoginScreen(),
+      home: TuteeBottomNavigatorBar(),
     );
   }
 }

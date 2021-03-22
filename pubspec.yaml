@@ -39,6 +39,12 @@ dependencies:
   google_sign_in: ^4.5.9
   image_picker: ^0.6.7+17
   time_range_picker: ^1.1.1
+  google_maps_flutter: ^1.2.0
+  geolocator: ^6.1.7
+  geocoding: ^1.0.5
+  flutter_polyline_points: ^0.2.0
+  
+  
 
 dev_dependencies:
   flutter_test:
