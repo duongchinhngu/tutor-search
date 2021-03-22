@@ -9,13 +9,12 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_cubit.dart';
-import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/tutee_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_dialogs.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
-import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/course_tutee_screens/course_tutee_screen.dart';
@@ -76,7 +75,7 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
   }
 
   //course detail body
-  Container buildCourseDetailBody(BuildContext context, Course course) {
+  Container buildCourseDetailBody(BuildContext context, ExtendedCourse course) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: ListView(
@@ -237,10 +236,10 @@ class _TutorCourseDetailScreenState extends State<TutorCourseDetailScreen> {
           ),
           //course name
           buildCourseInformationListTile(
-              course.classHasSubjectId.toString(), 'Subject', Icons.subject),
+              course.subjectName, 'Subject', Icons.subject),
           buildDivider(),
           //course name
-          buildCourseInformationListTile(course.name, 'Class', Icons.grade),
+          buildCourseInformationListTile(course.className, 'Class', Icons.grade),
           buildDivider(),
           //school
           buildCourseInformationListTile(

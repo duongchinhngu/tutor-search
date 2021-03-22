@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/cubits/tutor_cubit.dart';
@@ -12,7 +13,6 @@ import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_payment/tutee_payment_screen.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_variables.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
 
@@ -36,7 +36,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         builder: (context, state) {
           //
           final courseCubit = context.watch<CourseCubit>();
-          courseCubit.getCoursesByCourseId(widget.courseId);
+          courseCubit.getCoursesByCourseIdTuteeId(
+              widget.courseId, authorizedTutee.id);
           //
           //render proper ui
           if (state is CourseLoadingState) {
@@ -79,13 +80,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     buildDivider(),
                     //course name
                     buildCourseInformationListTile(
-                        state.course.classHasSubjectId.toString(),
-                        'Subject',
-                        Icons.subject),
+                        state.course.subjectName, 'Subject', Icons.subject),
                     buildDivider(),
                     //course name
                     buildCourseInformationListTile(
-                        state.course.name, 'Class', Icons.grade),
+                        state.course.className, 'Class', Icons.grade),
                     buildDivider(),
                     //school
                     buildCourseInformationListTile(
@@ -140,9 +139,21 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                     Visibility(
                       visible: !widget.hasFollowButton,
                       child: buildCourseInformationListTile(
-                        state.course.endDate,
+                        state.course?.followDate,
                         'Follow Date',
                         Icons.calendar_today,
+                      ),
+                    ),
+                    Visibility(
+                        visible: !widget.hasFollowButton,
+                        child: buildDivider()),
+                    //created date of this course
+                    Visibility(
+                      visible: !widget.hasFollowButton,
+                      child: buildCourseInformationListTile(
+                        state.course?.enrollmentStatus,
+                        'Status',
+                        Icons.check_circle_outline_outlined,
                       ),
                     ),
                     //this widget for being nice only

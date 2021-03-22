@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/repositories/class_repository.dart';
@@ -28,7 +29,7 @@ class _FilterClassSelectorScreenState extends State<FilterClassSelectorScreen> {
             //
             final classCubit = context.watch<ClassCubit>();
             final subjectId = filter.filterSubject.id;
-            classCubit.getClassBySubjectId(subjectId);
+            classCubit.getClassBySubjectIdStatus(subjectId, StatusConstants.ACTIVE_STATUS);
             //
             if (state is ClassLoadingState) {
               return buildLoadingIndicator();

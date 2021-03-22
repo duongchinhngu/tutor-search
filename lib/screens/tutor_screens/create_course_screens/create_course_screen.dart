@@ -985,7 +985,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   builder: (context, state) {
                     //
                     final classCubit = context.watch<ClassCubit>();
-                    classCubit.getClassBySubjectId(subject.id);
+                    classCubit.getClassBySubjectIdStatus(subject.id, globals.StatusConstants.ACTIVE_STATUS);
                     //
                     if (state is ClassLoadingState) {
                       return buildLoadingIndicator();

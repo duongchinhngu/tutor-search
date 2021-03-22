@@ -7,9 +7,11 @@ import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
+import 'package:tutor_search_system/screens/tutor_screens/tutor_courses_screens/tutor_my_course_screen.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 
 class MyCourseScreen extends StatefulWidget {
@@ -136,6 +138,7 @@ class _CourseListViewState extends State<CourseListView> {
                       );
                     },
                     child: CourseCard(state.courses[index]),
+                    // child: TutorCourseCard(context, state.courses[index]),
                   );
                 },
               ),
@@ -152,7 +155,10 @@ class _CourseListViewState extends State<CourseListView> {
 }
 
 // ignore: non_constant_identifier_names
-Container CourseCard(Course course) {
+Container CourseCard(ExtendedCourse course) {
+  //
+  double courseCardHeight = 140;
+  //
   return Container(
     alignment: Alignment.center,
     padding: EdgeInsets.only(
@@ -161,19 +167,21 @@ Container CourseCard(Course course) {
     child: Stack(
       alignment: Alignment.centerRight,
       children: <Widget>[
+        //
         Container(
-          height: 85,
+          height: courseCardHeight,
           width: 335,
           alignment: Alignment.centerRight,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: mapStatusToColor(course.status),
+              color: mapStatusToColor(course.enrollmentStatus),
               boxShadow: [
                 boxShadowStyle,
               ]),
         ),
+        //
         Container(
-          height: 85,
+          height: courseCardHeight,
           width: 324,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -183,83 +191,103 @@ Container CourseCard(Course course) {
             color: backgroundColor,
           ),
         ),
+        //
+
         Container(
-          height: 85,
+          height: courseCardHeight,
           width: 324,
           padding: EdgeInsets.only(
-            left: 15,
-            top: 10,
+            left: 25,
+            bottom: 5,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Expanded(
-                flex: 4,
+              //course name
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 5,
+                ),
                 child: Text(
                   course.name,
                   style: titleStyle,
                 ),
               ),
-              Expanded(
-                flex: 6,
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(
-                              'state.tutor.avatarImageLink',
-                            ),
-                          ),
-                        ),
+              //weekdays
+              Text(
+                course.daysInWeek.replaceFirst('[', '').replaceFirst(']', ''),
+                style: textStyle,
+              ),
+              //begin-end time
+              Text(
+                course.beginTime.substring(0, 5) +
+                    ' - ' +
+                    course.endTime.substring(0, 5),
+                style: textStyle,
+              ),
+              //begin date and status
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    //begin date
+                    Text(
+                      'begin ',
+                      style: TextStyle(
+                          fontSize: textFontSize,
+                          color: textGreyColor.withOpacity(0.7)),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Text(
+                        course.beginDate,
+                        style: textStyle,
                       ),
-                      Expanded(
-                        flex: 5,
-                        child: Container(
-                          padding: EdgeInsetsDirectional.only(
-                            start: 10,
-                          ),
-                          child: Text(
-                            'Tutor ' + course.createdBy.toString(),
-                            style: textStyle,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  color: course.status == 'Accepted'
-                                      ? mainColor
-                                      : (course.status == 'Denied')
-                                          ? Colors.red
-                                          : Colors.orange,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: Container(
-                                child: Text(
-                                  course.status,
-                                  style: textStyle,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        //status
+        Positioned(
+          top: 15,
+          right: 20,
+          child: Column(
+            children: [
+              //avatar
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  //avatar background color
+                  Container(
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      color: mapStatusToColor(course.enrollmentStatus).withOpacity(.4),
+                      shape: BoxShape.circle,
+                    ),
                   ),
+                  //avatar image
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: NetworkImage(
+                      course.tutorAvatarUrl,
+                    ),
+                  ),
+                  //
+                ],
+              ),
+              //tutor name
+              Container(
+                padding: EdgeInsets.only(
+                  top: 5,
+                ),
+                child: Text(
+                  course.tutorName,
+                  style: titleStyle,
                 ),
               ),
             ],

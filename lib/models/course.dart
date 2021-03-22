@@ -19,7 +19,7 @@ class Course {
   int confirmedBy;
   int maxTutee;
 
-  Course({
+  Course.fromJsonConstructor({
     this.id,
     this.name,
     this.beginTime,
@@ -39,7 +39,7 @@ class Course {
     this.maxTutee, 
   });
 
-  Course.constructor(
+  Course(
     this.id,
     this.name,
     this.beginTime,
@@ -87,7 +87,7 @@ class Course {
   }
 
   factory Course.fromJson(Map<String, dynamic> json) {
-    return Course(
+    return Course.fromJsonConstructor(
       id: json['id'],
       name: json['name'],
       beginTime: json['beginTime'].toString().substring(11),

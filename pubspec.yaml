@@ -39,6 +39,7 @@ dependencies:
   google_sign_in: ^4.5.9
   image_picker: ^0.6.7+17
   time_range_picker: ^1.1.1
+  url_launcher: ^6.0.2
 
 dev_dependencies:
   flutter_test:

@@ -12,7 +12,7 @@ const TUTEE_IN_A_COURSE = '$TUTEE_API/tutee-in-course';
 //class api urls
 const CLASS_API = "$SERVER_NAME/classes";
 const ALL_CLASS_API = "$CLASS_API/all";
-const CLASS_BY_SUBJECT_ID_API = "$CLASS_API/classes-by-subject/";
+const CLASS_BY_SUBJECT_ID_STATUS_API = "$CLASS_API/subject/status";
 
 //course api urls
 const COURSE_API = "$SERVER_NAME/courses";

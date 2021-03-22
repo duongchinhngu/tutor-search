@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
+import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
@@ -13,7 +15,7 @@ class CourseCubit extends Cubit<CourseState> {
   //course status = active; not registered by this authorized tutee id
   Future getTuteeHomeCourses() async {
     try {
-      List<Course> courses =
+      List<CourseTutor> courses =
           await _repository.fecthTuteeHomeCourses(http.Client());
       if (courses != null) {
         emit(CourseListLoadedState(courses));
@@ -54,8 +56,20 @@ class CourseCubit extends Cubit<CourseState> {
   //get course by course Id
   Future getCoursesByCourseId(int id) async {
     try {
-      Course course =
+      ExtendedCourse course =
           await _repository.fetchCourseByCourseId(http.Client(), id);
+      emit(CourseLoadedState(course));
+    } catch (e) {
+      emit(CourseLoadFailedState('$e'));
+    }
+  }
+
+  Future getCoursesByCourseIdTuteeId(int id, int tuteeId) async {
+    
+    try {
+      ExtendedCourse course =
+          await _repository.fetchCourseByCourseIdTuteeId(http.Client(), id, tuteeId);
+          // print('this if follow date: ' + course.followDate);
       emit(CourseLoadedState(course));
     } catch (e) {
       emit(CourseLoadFailedState('$e'));
@@ -67,13 +81,13 @@ class CourseCubit extends Cubit<CourseState> {
   Future getCoursesByEnrollmentStatus(int tuteeId, String status) async {
     try {
       List<Course> courses;
-      if (status == 'All') {
-        courses =
-            await _repository.fetchCoursesByTuteeId(http.Client(), tuteeId);
-      } else {
+      // if (status == 'All') {
+      //   courses =
+      //       await _repository.fetchCoursesByTuteeId(http.Client(), tuteeId);
+      // } else {
         courses = await _repository.fetchCoursesByEnrollmentStatus(
             http.Client(), status, tuteeId);
-      }
+      // }
 
       emit(CourseListLoadedState(courses));
     } catch (e) {

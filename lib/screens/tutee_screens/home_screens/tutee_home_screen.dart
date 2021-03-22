@@ -8,6 +8,7 @@ import 'package:tutor_search_system/commons/notifications/notification_methods.d
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/repositories/course_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/repositories/login_repository.dart';
@@ -131,7 +132,7 @@ Container buildCourseGridView(CourseListLoadedState state) {
 
 //Course Card
 class VerticalCourseCard extends StatelessWidget {
-  final Course course;
+  final CourseTutor course;
 
   const VerticalCourseCard({Key key, @required this.course}) : super(key: key);
   @override
@@ -201,18 +202,12 @@ class VerticalCourseCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: Center(
-                            child: Container(
-                              width: 95,
-                              height: 95,
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  // border: Border.all(
-                                  //   color: Colors.black,
-                                  //   width: 1,
-                                  // ),
-                                  shape: BoxShape.circle,
-                                  color: Colors.white),
-                              child: FlutterLogo(),
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(
+                                  course.avatarImageLink != null
+                                      ? course.avatarImageLink
+                                      : ''),
                             ),
                           ),
                         ),
@@ -233,7 +228,7 @@ class VerticalCourseCard extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  "Nguyen Trung Huy",
+                  course.fullname,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: textGreyColor,

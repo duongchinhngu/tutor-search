@@ -5,17 +5,19 @@ import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/urls.dart';
 import 'package:tutor_search_system/models/course.dart';
 import 'package:tutor_search_system/commons/global_variables.dart' as globals;
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
+import 'package:tutor_search_system/models/extended_models/course_tutor.dart';
 import 'package:tutor_search_system/screens/tutee_screens/search_course_screens/filter_models/course_filter_variables.dart';
 
 class CourseRepository {
   //fecth all courses : status = active and not registered by this tuteeId
-  Future<List<Course>> fecthTuteeHomeCourses(http.Client client) async {
+  Future<List<CourseTutor>> fecthTuteeHomeCourses(http.Client client) async {
     final tuteeId = globals.authorizedTutee.id;
     final response = await http.get('$TUTEE_HOME_COURSES/$tuteeId');
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
-          .map((courses) => new Course.fromJson(courses))
+          .map((courses) => new CourseTutor.fromJson(courses))
           .toList();
     } else {
       throw Exception('Failed to fetch all courses');
@@ -103,10 +105,20 @@ class CourseRepository {
   }
 
   //fetch courses by courseId
-  Future<Course> fetchCourseByCourseId(http.Client client, int id) async {
+  Future<ExtendedCourse> fetchCourseByCourseId(http.Client client, int id) async {
     final response = await http.get('$COURSE_API/$id');
     if (response.statusCode == 200) {
-      return Course.fromJson(json.decode(response.body));
+      return ExtendedCourse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to fetch course by course id');
+    }
+  }
+
+  //fetch courses by courseId and tuteeId enroolemnt
+  Future<ExtendedCourse> fetchCourseByCourseIdTuteeId(http.Client client, int id, int tuteeId) async {
+    final response = await http.get('$COURSE_API/$id?tuteeId=$tuteeId');
+    if (response.statusCode == 200) {
+      return ExtendedCourse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to fetch course by course id');
     }
@@ -129,7 +141,7 @@ class CourseRepository {
   }
 
   //fetch all courses by tutee id and enrollment status
-  Future<List<Course>> fetchCoursesByEnrollmentStatus(
+  Future<List<ExtendedCourse>> fetchCoursesByEnrollmentStatus(
       http.Client client, String status, int tuteeId) async {
     //host url
     String url = COURSES_BY_ENROLLMENT_STATUS_API;
@@ -147,7 +159,7 @@ class CourseRepository {
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse
-          .map((courses) => new Course.fromJson(courses))
+          .map((courses) => new ExtendedCourse.fromJson(courses))
           .toList();
     } else {
       throw Exception('Failed to fetch courses by filter');

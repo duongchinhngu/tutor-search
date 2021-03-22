@@ -7,7 +7,7 @@ import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_pa
 
 //this is default course (when tutor does not choose fields for new course)
 //default value of unchosen field is "No Select"
-Course course = Course.constructor(
+Course course = Course(
   0,
   // name
   '',
@@ -83,7 +83,7 @@ void resetInputFields() {
 //reset all field of create course screen; set = empty
 void resetEmptyCreateCourseScreen() {
   //reset to default values
-  course = Course.constructor(
+  course = Course(
     0,
     // name
     '',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
+import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/class_cubit.dart';
 import 'package:tutor_search_system/cubits/course_cubit.dart';
@@ -197,7 +198,7 @@ class _SearchCourseBodyState extends State<SearchCourseBody> {
           BlocBuilder<ClassCubit, ClassState>(builder: (context, state) {
         //call class cubit and get all classes by subject id
         final classCubit = context.watch<ClassCubit>();
-        classCubit.getClassBySubjectId(widget.subject.id);
+        classCubit.getClassBySubjectIdStatus(widget.subject.id, StatusConstants.ACTIVE_STATUS);
         //render proper UI for each classes state
         if (state is ClassLoadingState) {
           return buildLoadingIndicator();

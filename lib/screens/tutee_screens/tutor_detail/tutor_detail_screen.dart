@@ -13,6 +13,7 @@ import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
 import 'package:tutor_search_system/states/tutor_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TutorDetails extends StatelessWidget {
   final int tutorId;
@@ -222,9 +223,10 @@ class TutorInformation extends StatelessWidget {
               courseId, authorizedTutee.id);
           //
           bool isCensoredInfo = true;
-          if( state is EnrollmentLoadedState)
-          {
-            if( state.enrollment != null && state.enrollment.status == EnrollmentConstants.ACCEPTED_STATUS){
+          if (state is EnrollmentLoadedState) {
+            if (state.enrollment != null &&
+                state.enrollment.status ==
+                    EnrollmentConstants.ACCEPTED_STATUS) {
               isCensoredInfo = false;
             }
           }
@@ -295,8 +297,33 @@ class TutorInformation extends StatelessWidget {
                                     ),
                                     Stack(
                                       children: [
-                                        Text(
-                                          tutor.email,
+                                        //email
+                                        GestureDetector(
+                                          onTap: () {
+                                            //ui to launch to email
+                                            final Uri _emailLaunchUri = Uri(
+                                                scheme: 'mailto',
+                                                path: tutor.email,
+                                                queryParameters: {
+                                                  'subject': authorizedTutee
+                                                          .fullname +
+                                                      ' ask to join you course!',
+                                                  'body':
+                                                      'I would like to contact you for your course! ...'
+                                                });
+                                            //launch
+                                            launch(_emailLaunchUri
+                                                .toString()
+                                                .replaceAll('+', ' '));
+                                          },
+                                          child: Text(
+                                            tutor.email,
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: textFontSize,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
                                         ),
                                         //
                                         Visibility(
@@ -333,7 +360,20 @@ class TutorInformation extends StatelessWidget {
                                     ),
                                     Stack(
                                       children: [
-                                        Text(tutor.phone),
+                                        //phone number
+                                        GestureDetector(
+                                          child: Text(
+                                            tutor.phone,
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            launch('tel:${tutor.phone}');
+                                          },
+                                        ),
                                         //
                                         Visibility(
                                           visible: isCensoredInfo,

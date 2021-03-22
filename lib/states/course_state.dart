@@ -1,4 +1,5 @@
 import 'package:tutor_search_system/models/course.dart';
+import 'package:tutor_search_system/models/extended_models/extended_course.dart';
 
 abstract class CourseState {}
 
@@ -11,7 +12,7 @@ class CourseLoadFailedState extends CourseState {
 }
 
 class CourseLoadedState extends CourseState {
-  final Course course;
+  final ExtendedCourse course;
 
   CourseLoadedState(this.course);
 }

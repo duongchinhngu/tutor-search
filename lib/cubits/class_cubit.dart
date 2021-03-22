@@ -10,9 +10,9 @@ class ClassCubit extends Cubit<ClassState> {
 
 
   //get all active class by subject id
-  Future getClassBySubjectId(int subjectId) async {
+  Future getClassBySubjectIdStatus(int subjectId, String status) async {
     try {
-      List<Class> classes = await _repository.fetchClassBySubjectId(http.Client(), subjectId);
+      List<Class> classes = await _repository.fetchClassBySubjectIdStatus(http.Client(), subjectId, status);
       emit(ClassListLoadedState(classes));
     } catch (e) {
       emit(ClassesLoadFailedState('$e'));
