@@ -27,7 +27,7 @@ class LoginRepository {
     //
     await _googleSignIn.signIn().whenComplete(() async {
       //authenticate and save token to use
-      LoginRepository().authenticateByEmail(_googleSignIn.currentUser.email);
+      authenticateByEmail(_googleSignIn.currentUser.email);
       // navigate to role roouter if token is provided
       WidgetsBinding.instance.addPostFrameCallback(
         (_) {
