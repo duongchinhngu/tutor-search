@@ -25,8 +25,7 @@ class NotificationRepository {
     }
   }
 
-  Future postCreateCourseSuccessNotification(
-      String title, String message, String email) async {
+  Future postNotification(String title, String message, String email) async {
     final http.Response response = await http.post('$NOTIFICATION_API',
         headers: await AuthorizationContants().getAuthorizeHeader(),
         body: jsonEncode(<String, dynamic>{
@@ -44,7 +43,9 @@ class NotificationRepository {
       return true;
     } else {
       print(response.statusCode);
-      print('this is: ' + response.body + response.statusCode.toString());
+      print('huhu $title');
+      print('hic hic $email');
+      print('sai ne: ' + response.body + response.statusCode.toString());
       throw Exception('Failed to post CreateCourseSuccessNotification');
     }
   }

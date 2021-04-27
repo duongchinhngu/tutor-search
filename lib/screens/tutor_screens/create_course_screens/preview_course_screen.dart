@@ -62,6 +62,7 @@ class _PreviewCourseScreenState extends State<PreviewCourseScreen> {
         'enrollmentStatus',
         authorizedTutor.avatarImageLink,
         authorizedTutor.fullname,
+        authorizedTutor.email,
         null,
         authorizedTutor.address,
         false,
