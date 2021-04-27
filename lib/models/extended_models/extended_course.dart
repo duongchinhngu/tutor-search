@@ -9,6 +9,7 @@ class ExtendedCourse extends Course {
   final String tutorAvatarUrl;
   final String tutorName;
   final String tutorAddress;
+  final String tutorEmail;
   final bool isFeedback;
   final int availableSlot;
 
@@ -37,6 +38,7 @@ class ExtendedCourse extends Course {
       this.enrollmentStatus,
       this.tutorAvatarUrl,
       this.tutorName,
+      this.tutorEmail,
       this.enrollmentId,
       this.tutorAddress,
       this.isFeedback,
@@ -89,6 +91,7 @@ class ExtendedCourse extends Course {
       this.enrollmentStatus,
       this.tutorAvatarUrl,
       this.tutorName,
+      this.tutorEmail,
       this.enrollmentId,
       this.isFeedback,
       this.availableSlot})
@@ -136,6 +139,7 @@ class ExtendedCourse extends Course {
       enrollmentStatus: json['enrollmentStatus'].toString(),
       tutorAvatarUrl: json['tutorAvatarUrl'].toString(),
       tutorName: json['tutorName'].toString(),
+      tutorEmail: json['tutorEmail'].toString(),
       enrollmentId: json['enrollmentId'],
       location: json['location'],
       extraImages: json['extraImages'],

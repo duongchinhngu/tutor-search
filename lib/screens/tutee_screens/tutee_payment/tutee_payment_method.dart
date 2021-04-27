@@ -86,6 +86,7 @@ Future<void> _completeTuteeTransaction(BuildContext context,
         builder: (context) => TuteePaymentProccessingScreen(
           tuteeTransaction: tuteeTransaction,
           enrollment: enrollment,
+          course: course,
         ),
       ),
     );
