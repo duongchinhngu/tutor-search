@@ -150,6 +150,7 @@ class CourseRepository {
   //fetch extedned courses by courseId
   Future<ExtendedCourse> fetchCourseByCourseId(
       http.Client client, int id) async {
+    print('test id ne: $id');
     final response = await http.get(
       '$COURSE_API/$id',
       headers: await AuthorizationContants().getAuthorizeHeader(),
