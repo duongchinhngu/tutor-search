@@ -5,15 +5,11 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
-import 'package:tutor_search_system/cubits/tutor_transaction_cubit.dart';
-import 'package:tutor_search_system/repositories/tutee_transaction_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
-import 'package:tutor_search_system/screens/tutee_screens/transaction_screens/tutee_transaction_detail_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/transaction_screens/tutor_transaction_detail_screen.dart';
-import 'package:tutor_search_system/states/tutee_transaction_state.dart';
 import 'package:tutor_search_system/states/tutor_transaction_state.dart';
 
 class TutorTransactionScreen extends StatefulWidget {

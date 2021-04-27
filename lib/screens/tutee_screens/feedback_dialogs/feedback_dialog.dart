@@ -7,7 +7,6 @@ import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/styles.dart';
 import 'package:tutor_search_system/models/feedback.dart';
 import 'package:tutor_search_system/models/tutor.dart';
-import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 

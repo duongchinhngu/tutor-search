@@ -28,19 +28,16 @@ class _TutorBottomNavigatorBarState extends State<TutorBottomNavigatorBar> {
   void initState() {
     super.initState();
     //reset token
-    getFCMToken().then((token){
-      AccountRepository().resetFCMToken( authorizedTutor.email ,token);
+    getFCMToken().then((token) {
+      AccountRepository().resetFCMToken(authorizedTutor.email, token);
     });
     //init screen tab navigation bar
     screens = [
       TutorMyCourseScreen(),
-      // TutorMyCourseScreen(),
       CreateCourseWelcomeScreen(),
-      // TutorNotificationScreen(),
       NotificationScreen(
         receiverEmail: authorizedTutor.email,
       ),
-      // TutorProfileScreen(),
       TutorProfileScreen(
         tutor: authorizedTutor,
       ),

@@ -1,15 +1,10 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tutor_search_system/commons/global_variables.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/cubits/fee_cubit.dart';
 import 'package:tutor_search_system/models/enrollment.dart';
 import 'package:tutor_search_system/models/extended_models/extended_course.dart';
-import 'package:tutor_search_system/repositories/fee_repository.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_payment/tutor_payment_screen.dart';
-import 'package:tutor_search_system/states/fee_state.dart';
 import 'tutee_payment_method.dart' as payment_methods;
 
 //
@@ -255,46 +250,6 @@ class _TuteePaymentScreenState extends State<TuteePaymentScreen> {
       ),
       child: Text(
         'Transaction Details',
-        style: TextStyle(
-          fontSize: titleFontSize,
-          color: textWhiteColor,
-        ),
-      ),
-    );
-  }
-
-  Container _buildPaymentMethod() {
-    return Container(
-      width: 341,
-      height: 60,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white.withOpacity(0.35)),
-      child: ListTile(
-        leading: Image.asset(
-          'assets/images/MoMo_Logo.png',
-          height: 40,
-        ),
-        title: Text(
-          'MoMo wallet',
-          style: TextStyle(
-            color: textWhiteColor,
-            fontSize: titleFontSize,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container _buildPaymentMethodTitle() {
-    return Container(
-      padding: EdgeInsets.only(
-        left: 10,
-        bottom: 8,
-      ),
-      child: Text(
-        'Payment Method',
         style: TextStyle(
           fontSize: titleFontSize,
           color: textWhiteColor,

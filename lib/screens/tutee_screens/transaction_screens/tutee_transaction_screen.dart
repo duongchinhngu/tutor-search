@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tutor_search_system/commons/colors.dart';
-import 'package:tutor_search_system/commons/functions/common_functions.dart';
 import 'package:tutor_search_system/commons/global_variables.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/cubits/transaction_cubit.dart';
 import 'package:tutor_search_system/cubits/tutee_transaction_cubit.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/repositories/tutee_transaction_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
@@ -26,41 +23,11 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      // appBar: GradientAppBar(
-      //   title: Text('Flutter Gradient Example'),
-      //   gradient: LinearGradient(
-      //     colors: [
-      //       Colors.cyan,
-      //       Colors.indigo,
-      //     ],
-      //   ),
-      // ),
-      // // appBar: GradientAppBar(
-      // //   gradient: LinearGradient(
-      // //       begin: Alignment.topCenter,
-      // //       end: Alignment.bottomCenter,
-      // //       colors: [
-      // //         mainColor,
-      // //         backgroundColor,
-      // //       ]),
-      // //   leading: IconButton(
-      // //     icon: Icon(
-      // //       Icons.arrow_back_ios,
-      // //       color: backgroundColor,
-      // //       size: 15,
-      // //     ),
-      // //     onPressed: () => Navigator.pop(context),
-      // //   ),
-      // //   centerTitle: true,
-      // //   title: Text(
-      // //     'Transactions',
-      // //   ),
-      // //   actions: [Icon(Icons.sort)],
-      // // ),
       appBar: _buildAppBar(context),
       body: BlocProvider(
         create: (context) =>
@@ -158,7 +125,7 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
                         'for course ',
                         style: textStyle,
                       ),
-                      Text( state.tuteeTransactions[index].courseName),
+                      Text(state.tuteeTransactions[index].courseName),
                     ],
                   ),
                   Row(
@@ -188,14 +155,13 @@ class _TuteeTransactionScreenState extends State<TuteeTransactionScreen> {
             ),
             //
             Text(
-                '\$' + state.tuteeTransactions[index].totalAmount.toString(),
-                style: TextStyle(
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black.withOpacity(0.8),
-                ),
+              '\$' + state.tuteeTransactions[index].totalAmount.toString(),
+              style: TextStyle(
+                fontSize: titleFontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withOpacity(0.8),
               ),
-            
+            ),
           ],
         ),
       ),

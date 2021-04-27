@@ -19,10 +19,7 @@ import 'package:tutor_search_system/repositories/enrollment_repository.dart';
 import 'package:tutor_search_system/repositories/feedback_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/common_snackbars.dart';
 import 'package:tutor_search_system/screens/common_ui/full_screen_image.dart';
-import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
-import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_map/tutee_search_map.dart';
-import 'package:tutor_search_system/screens/tutor_screens/create_course_screens/create_course_variables.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_course_detail_screens/tutor_course_detail_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutor_detail/tutor_detail_screen.dart';
@@ -118,12 +115,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               backgroundColor: backgroundColor,
               appBar: buildCourseDetailAppbar(context),
               body: buildCourseDetailBody(context, state.course),
-              // floatingActionButton: Visibility(
-              //   child: buildPayNowButton(context, state.course),
-              //   visible: state.course.enrollmentStatus ==
-              //       EnrollmentConstants.UNPAID_STATUS,
-              // ),
-
               floatingActionButton: Visibility(
                 child: buildFeedbackButton(context, state.course),
                 visible: state.course.enrollmentStatus == 'Inactive' &&

@@ -1,7 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -807,10 +804,11 @@ class _UpdateTutorProfileScreenState extends State<UpdateTutorProfileScreen> {
       ],
       // leading: buildDefaultCloseButton(context),
       title: GestureDetector(
-          onTap: (){
-            print('this is tutor update profile: ' + certificationImages.toString());
+        onTap: () {
+          print('this is tutor update profile: ' +
+              certificationImages.toString());
         },
-              child: Text(
+        child: Text(
           'Update Profile',
           style: headerStyle,
         ),

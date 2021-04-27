@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/screens/tutee_screens/tutee_wrapper.dart';
 
 import '../tutor_wrapper.dart';
 
 class CompletedRequestUpdateScreen extends StatefulWidget {
   @override
-  _CompletedRequestUpdateScreenState createState() => _CompletedRequestUpdateScreenState();
+  _CompletedRequestUpdateScreenState createState() =>
+      _CompletedRequestUpdateScreenState();
 }
 
-class _CompletedRequestUpdateScreenState extends State<CompletedRequestUpdateScreen> {
+class _CompletedRequestUpdateScreenState
+    extends State<CompletedRequestUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

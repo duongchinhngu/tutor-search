@@ -11,7 +11,6 @@ import 'package:tutor_search_system/models/tutee.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 import 'package:tutor_search_system/screens/tutee_screens/tutee_profile/tutee_processing_update_profile_screen.dart';
 
-String _origingender = authorizedTutee.gender;
 
 Tutee tuteeinfoupdate = Tutee.constructor(authorizedTutee.id, '', '', '',
     authorizedTutee.email, '', '', 'Active', 4, '', '');

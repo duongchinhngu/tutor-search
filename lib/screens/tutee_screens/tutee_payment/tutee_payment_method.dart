@@ -65,20 +65,6 @@ Future<void> _completeTuteeTransaction(BuildContext context,
   final commission = await CommissionRepository().fetchCommissionByCommissionId(
       http.Client(), globals.JOIN_COURSE_COMMISSION_ID);
 //init tuteeTransaction
-  // final tuteeTransaction = TuteeTransaction.modelConstructor(
-  //     0,
-  //     '1900-01-01',
-  //     totalAmount,
-  //     '',
-  //     'Successful',
-  //     globals.authorizedTutee.id,
-  //     commission.id,
-  //     //courseId
-  //     course.id,
-  //     course.studyFee,
-  //     commission.rate
-
-  //     );
   final tuteeTransaction = TuteeTransaction.modelConstructor(
       0,
       '2021-04-23',

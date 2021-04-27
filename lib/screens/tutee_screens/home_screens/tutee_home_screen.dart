@@ -19,7 +19,6 @@ import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/home_course_detail.dart';
 import 'package:tutor_search_system/screens/tutee_screens/feedback_dialogs/feedback_dialog.dart';
-import 'package:tutor_search_system/screens/tutee_screens/home_screens/sort_course_function.dart';
 import 'package:tutor_search_system/screens/tutee_screens/interested_subject_selector_dialog/interested_subject_selector_dialog.dart';
 import 'package:tutor_search_system/states/course_state.dart';
 import 'package:http/http.dart' as http;

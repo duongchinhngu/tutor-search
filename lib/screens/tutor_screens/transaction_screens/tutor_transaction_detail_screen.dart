@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/notifications/notification_methods.dart';
 import 'package:tutor_search_system/commons/styles.dart';
-import 'package:tutor_search_system/models/tutee_transaction.dart';
 import 'package:tutor_search_system/models/tutor_transaction.dart';
 import 'package:tutor_search_system/screens/common_ui/common_buttons.dart';
 

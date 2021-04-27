@@ -100,28 +100,6 @@ class _ReUpdateTutorProfileScreenState
               widget.tutor.membershipId,
               socialIdUrl,
             );
-            //   widget.tutor.id,
-            //   nameController.text,
-            //   genderController.text,
-            //   birthdayController.text,
-            //   widget.tutor.email,
-            //   phoneController.text,
-            //   addressController.text,
-            //   widget.tutor.status,
-            //   widget.tutor.roleId,
-            //   descriptionController.text,
-            //   widget.tutor.avatarImageLink,
-            //   educationLevelController.text,
-            //   universityController.text,
-            //   widget.tutor.avatarImageLink,
-            //   certificationImages.toString(),
-            //   widget.tutor.confirmedDate,
-            //   widget.tutor.points,
-            //   widget.tutor.membershipId,
-            //   widget.tutor.createdDate,
-            // );
-            print(
-                'image url avatar tutror:  ' + widget.tutor.avatarImageLink);
             //
             WidgetsBinding.instance.addPostFrameCallback((_) {
               return Navigator.of(context).pushReplacement(

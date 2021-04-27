@@ -19,9 +19,7 @@ CameraPosition __initalLocation = CameraPosition(
   final startAddressFocusNode = FocusNode();
   final destinationAddressFocusNode = FocusNode();
 
-  String _startAddress = '';
-  String _destinationAddress = '';
-  String _placeDistance;
+
 
   Set<Marker> markers = {};
 
@@ -33,21 +31,7 @@ CameraPosition __initalLocation = CameraPosition(
   getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
-      // setState(() {
-      //   _currentPosition = position;
-      //   print('CURRENT POS: $_currentPosition');
 
-      //   mapController.animateCamera(
-      //     CameraUpdate.newCameraPosition(
-      //       CameraPosition(
-      //         target:
-      //             LatLng(_currentPosition.latitude, _currentPosition.longitude),
-      //         zoom: 30.0,
-      //       ),
-      //     ),
-      //   );
-      // }
-      
       return await _getAddress();
     }).catchError((e) {
       print(e);

@@ -18,10 +18,10 @@ class _CreateCourseCompletedScreenState
   void initState() {
     //
     super.initState();
-    fcm.getToken().then((token){
-    print(token);
-  });
-  //
+    fcm.getToken().then((token) {
+      print(token);
+    });
+    //
     fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('onMessage: $message');
@@ -110,9 +110,7 @@ class _CreateCourseCompletedScreenState
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   return Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => TutorBottomNavigatorBar(
-                            // selectedIndex: 1,
-                            )),
+                        builder: (context) => TutorBottomNavigatorBar()),
                     ModalRoute.withName('/Home'),
                   );
                 });

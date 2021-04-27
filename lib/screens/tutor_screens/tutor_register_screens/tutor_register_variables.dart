@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:tutor_search_system/models/tutor.dart';
-
 import 'tutor_register_screen.dart';
 
 //selected birthday (datetime type)
