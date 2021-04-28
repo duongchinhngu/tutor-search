@@ -9,28 +9,30 @@ import 'package:tutor_search_system/cubits/enrollment_cubit.dart';
 import 'package:tutor_search_system/models/enrollment_course.dart';
 import 'package:tutor_search_system/repositories/commission_repository.dart';
 import 'package:tutor_search_system/repositories/enrollment_repository.dart';
+import 'package:tutor_search_system/screens/common_ui/common_popups.dart';
 import 'package:tutor_search_system/screens/common_ui/no_data_screen.dart';
 import 'package:tutor_search_system/screens/common_ui/waiting_indicator.dart';
 import 'package:tutor_search_system/screens/tutee_screens/course_detail/course_detail_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:tutor_search_system/states/courseenrollment_state.dart';
 import 'package:tutor_search_system/states/enrollment_state.dart';
+// import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 double commissionRate;
 List<CourseEnrollment> listEnrollment = new List();
 double currentRevenue = 0;
 String currentdate;
 String currentmonth;
+String currentyear;
 
 class ReportRevenueScreen extends StatefulWidget {
-
   @override
   _ReportRevenue createState() => _ReportRevenue();
 }
 
 class _ReportRevenue extends State<ReportRevenueScreen> {
- 
   double current = 0;
+  DateTime selectedDate;
 
   void initState() {
     registerOnFirebase();
@@ -40,6 +42,8 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
 
     currentdate = convertDayTimeToString(datenow);
     currentmonth = datenow.month.toString();
+    currentyear = datenow.year.toString();
+    selectedDate = datenow;
     CommissionRepository()
         .fetchCommissionByCommissionId(http.Client(), 1)
         .then((value) => {
@@ -67,9 +71,9 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
         } else if (state is CourseEnrollmentListNoDataState) {
           return NoDataScreen();
         } else if (state is CourseEnrollmentLoadFailedState) {
-            // return ErrorScreen();
-            return Text(state.errorMessage);
-          } else if (state is CourseEnrollmentListLoadedState) {
+          // return ErrorScreen();
+          return Text(state.errorMessage);
+        } else if (state is CourseEnrollmentListLoadedState) {
           return Scaffold(
             backgroundColor: backgroundColor,
             appBar: buildRevenueDetailAppbar(context),
@@ -81,13 +85,61 @@ class _ReportRevenue extends State<ReportRevenueScreen> {
                     Center(
                       child: Container(
                           padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                          child: Text(
-                            'Detail Total Revenue',
-                            style: TextStyle(
-                              color: textGreyColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Text(
+                                  'Detail Total Revenue',
+                                  style: TextStyle(
+                                    color: textGreyColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // showMonthPicker(
+                                  //   context: context,
+                                  //   firstDate:
+                                  //       DateTime(DateTime.now().year - 1, 5),
+                                  //   lastDate:
+                                  //       DateTime(DateTime.now().year + 1, 9),
+                                  //   initialDate: selectedDate,
+                                  //   locale: Locale("es"),
+                                  // ).then((date) {
+                                  //   if (date != null) {
+                                  //     setState(() {
+                                  //       selectedDate = date;
+                                  //     });
+                                  //   }
+                                  // });
+                                },
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.only(left: 80),
+                                      child: Icon(
+                                        Icons.calendar_today,
+                                        color: mainColor,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(left: 15),
+                                      child: Text(
+                                        '$currentmonth/$currentyear',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           )),
                     ),
                     //

@@ -6,6 +6,7 @@ import 'package:tutor_search_system/models/account.dart';
 import 'package:tutor_search_system/models/tutor.dart';
 import 'package:tutor_search_system/repositories/account_repository.dart';
 import 'package:tutor_search_system/repositories/image_repository.dart';
+import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/tutor_register_screens/tutor_register_variables.dart';
@@ -42,8 +43,7 @@ class _TutorRegisterProccessingScreenState
     tutor.description = tutor_screen.descriptionController.text;
 
     //init account obj
-    final account =
-        Account.constructor(tutor.email, tutor.roleId);
+    final account = Account.constructor(tutor.email, tutor.roleId);
     //post Account
     await AccountRepository().postAcount(account);
     //after post image on Firebase; get link and set to tutor
@@ -71,6 +71,9 @@ class _TutorRegisterProccessingScreenState
         );
       }
     }
+
+    await NotificationRepository().postAllManagerNotification(
+        'Update Profile', 'Register account request!');
     return Future.value(true);
   }
 

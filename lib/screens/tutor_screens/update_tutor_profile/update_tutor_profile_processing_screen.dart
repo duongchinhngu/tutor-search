@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tutor_search_system/commons/colors.dart';
 import 'package:tutor_search_system/commons/functions/firebase_functions.dart';
 import 'package:tutor_search_system/models/tutor_update_profile.dart';
+import 'package:tutor_search_system/repositories/notification_repository.dart';
 import 'package:tutor_search_system/repositories/tutor_update_profile_repository.dart';
 import 'package:tutor_search_system/screens/common_ui/error_screen.dart';
 import 'package:tutor_search_system/screens/tutor_screens/update_tutor_profile/update_tutor_profile_variable.dart';
@@ -25,7 +26,7 @@ class _UpdateTutorProfileProcessingScreenState
       TutorUpdateProfile tutorUpdateProfile) async {
     tutorUpdateProfile.certificateImages =
         certificationImages.toString().replaceFirst(',', '').trim();
-        print('thí í cerit: ' + tutorUpdateProfile.certificateImages);
+    print('thí í cerit: ' + tutorUpdateProfile.certificateImages);
     //
     if (avatarUpdate != null) {
       String imageUrl = await uploadFileOnFirebaseStorage(avatarUpdate);
@@ -41,6 +42,9 @@ class _UpdateTutorProfileProcessingScreenState
         .deleteTutorUpdateProfilebyId(tutorUpdateProfile.id);
     //
     await TutorUpdateProfileRepository().postUpdateProfile(tutorUpdateProfile);
+
+    await NotificationRepository().postAllManagerNotification(
+        'Update Profile', 'Update profile request!');
     //
     return Future.value(true);
   }

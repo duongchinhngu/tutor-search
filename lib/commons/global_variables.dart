@@ -25,29 +25,29 @@ Tutee authorizedTutee;
 //tutor id for all page can access;
 //  this will be reseted when tutor login succeeded
 //authorized tutor
-Tutor authorizedTutor;
-// Tutor authorizedTutor = Tutor(
-//   id: 1,
-//   educationLevel: 'University',
-//   school: 'FPT University',
-//   points: 10,
-//   membershipId: 9,
-//   description: 'Hello mọi người',
-//   status: 'Active',
-//   fullname: 'Dương Chính Ngữ',
-//   gender: 'Male',
-//   birthday: '1998-12-30',
-//   email: 'duongchinhngu@gmail.com',
-//   phone: '0869631008',
-//   avatarImageLink:
-//       'https://firebasestorage.googleapis.com/v0/b/tutor-search-project.appspot.com/o/data%2Fuser%2F0%2Fcom.example.tutor_search_system%2Fcache%2Fimage_picker41242109700305772.jpg?alt=media&token=b530f30e-6ab9-4343-ac1a-d9fc63a38ca7',
-//   address: '100/40/18A Dinh Tien Hoang, 1st ward, Binh Thanh District, HCMC',
-//   socialIdUrl:
-//       'https://firebasestorage.googleapis.com/v0/b/tutor-search-project.appspot.com/o/data%2Fuser%2F0%2Fcom.example.tutor_search_system%2Fcache%2Fimage_picker41242109700305772.jpg?alt=media&token=b530f30e-6ab9-4343-ac1a-d9fc63a38ca7',
-//   roleId: 3,
-//   createdDate: '2021-04-11',
-//   confirmedDate: '2021-04-24',
-// );
+// Tutor authorizedTutor;
+Tutor authorizedTutor = Tutor(
+  id: 1,
+  educationLevel: 'University',
+  school: 'FPT University',
+  points: 10,
+  membershipId: 9,
+  description: 'Hello mọi người',
+  status: 'Active',
+  fullname: 'Dương Chính Ngữ',
+  gender: 'Male',
+  birthday: '1998-12-30',
+  email: 'duongchinhngu@gmail.com',
+  phone: '0869631008',
+  avatarImageLink:
+      'https://firebasestorage.googleapis.com/v0/b/tutor-search-project.appspot.com/o/data%2Fuser%2F0%2Fcom.example.tutor_search_system%2Fcache%2Fimage_picker41242109700305772.jpg?alt=media&token=b530f30e-6ab9-4343-ac1a-d9fc63a38ca7',
+  address: '100/40/18A Dinh Tien Hoang, 1st ward, Binh Thanh District, HCMC',
+  socialIdUrl:
+      'https://firebasestorage.googleapis.com/v0/b/tutor-search-project.appspot.com/o/data%2Fuser%2F0%2Fcom.example.tutor_search_system%2Fcache%2Fimage_picker41242109700305772.jpg?alt=media&token=b530f30e-6ab9-4343-ac1a-d9fc63a38ca7',
+  roleId: 3,
+  createdDate: '2021-04-11',
+  confirmedDate: '2021-04-24',
+);
 
 //membershipname of signedin tutor
 String membershipName = '';
