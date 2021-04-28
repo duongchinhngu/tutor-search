@@ -50,6 +50,31 @@ class NotificationRepository {
     }
   }
 
+  Future postAllManagerNotification(String title, String message) async {
+    final http.Response response = await http.post(
+      '$NOTIFICATION_API/all-manager?title=$title&&message=$message',
+      headers: await AuthorizationContants().getAuthorizeHeader(),
+      // body: jsonEncode(<String, dynamic>{
+      //   'title': title,
+      //   'message': message,
+      // }
+    );
+
+    print('ahihi ${response.request.url}');
+    if (response.statusCode == 201 ||
+        response.statusCode == 204 ||
+        response.statusCode == 404) {
+      print('this is: ' + response.body + response.statusCode.toString());
+      return true;
+    } else {
+      print(response.statusCode);
+      print('huhu $title');
+      print('huhu $message');
+      print('sai ne: ' + response.body + response.statusCode.toString());
+      throw Exception('Failed to post CreateCourseSuccessNotification');
+    }
+  }
+
   Future postCreateAccountSuccessNotification() async {
     final http.Response response = await http.post('$NOTIFICATION_API',
         headers: await AuthorizationContants().getAuthorizeHeader(),

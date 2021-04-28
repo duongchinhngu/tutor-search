@@ -15,7 +15,8 @@ import '../waiting_indicator.dart';
 class NotificationScreen extends StatefulWidget {
   final String receiverEmail;
 
-  const NotificationScreen({Key key,@required this.receiverEmail}) : super(key: key);
+  const NotificationScreen({Key key, @required this.receiverEmail})
+      : super(key: key);
 
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -28,6 +29,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     getMessage(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +62,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: ListView.separated(
                   itemCount: state.notifications.length,
-                  itemBuilder: (context, index) => buildNotificationCard(state, index),
+                  itemBuilder: (context, index) =>
+                      buildNotificationCard(state, index),
                   separatorBuilder: (BuildContext context, int index) =>
                       Divider(
                     indent: 20,
@@ -77,27 +80,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   ListTile buildNotificationCard(NotificationListLoadedState state, int index) {
     return ListTile(
-                  leading: Container(
-                    height: 70,
-                    width: 70,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://i.pinimg.com/originals/38/2a/fd/382afdef2846d1ff6e30d5185b0e207b.png'),
-                    ),
-                  ),
-                  title: Text(
-                    state.notifications[index].message,
-                    style: TextStyle(
-                      fontSize: titleFontSize,
-                      color: textGreyColor,
-                    ),
-                  ),
-                  subtitle: Text(
-                    state.notifications[index].createdDate
-                        .replaceFirst('T', ' '),
-                    style: TextStyle(
-                        fontSize: textFontSize, color: Colors.grey[500]),
-                  ),
-                );
+      leading: Container(
+        height: 70,
+        width: 70,
+        child: CircleAvatar(
+          backgroundImage: NetworkImage(
+              'https://i.pinimg.com/originals/38/2a/fd/382afdef2846d1ff6e30d5185b0e207b.png'),
+        ),
+      ),
+      title: Text(
+        state.notifications[index].message,
+        style: TextStyle(
+          fontSize: titleFontSize,
+          color: textGreyColor,
+        ),
+      ),
+      subtitle: Text(
+        state.notifications[index].createdDate.replaceFirst('T', ' '),
+        style: TextStyle(fontSize: textFontSize, color: Colors.grey[500]),
+      ),
+    );
   }
 }
